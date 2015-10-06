@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title><![CDATA[Tassel's Blog]]></title>
+  
+  <link href="/atom.xml" rel="self"/>
+  <link href="http://tasselx.github.io/"/>
+  <updated>2015-08-16T17:39:03.000Z</updated>
+  <id>http://tasselx.github.io/</id>
+  
+  <author>
+    <name><![CDATA[Tassel]]></name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[iOS面试题总结（知乎分享面试题）]]></title>
+    <link href="http://tasselx.github.io/2015/07/29/ios-interview/"/>
+    <id>http://tasselx.github.io/2015/07/29/ios-interview/</id>
+    <published>2015-07-28T17:32:21.000Z</published>
+    <updated>2015-08-16T17:39:03.000Z</updated>
+    <content type="html"><![CDATA[<p><img src="http://ww4.sinaimg.cn/large/7c00f1e1gw1ev4yg5cdyqj20ia0c4q3w.jpg" class="full-image"></p>
+<blockquote class="blockquote-center">还有很长的路要走<br>还有很多的事要做</blockquote>
+
+<a id="more"></a>
+<ol>
+<li><p>什么是ARC（ARC是为了解决什么问题诞生的）？</p>
+<ul>
+<li>ARC是Auto Reference Counting的缩写，即自动引用计数，由编译器在代码合适的位置中自动添加retain/Release/Autorelease/dealloc方法从而进行内存管理.</li>
+<li>ARC几个要点：<br>在对象被创建时 retain count +1，在对象被release时 retain count -1.当retain count 为0 时，销毁对象。<br>程序中加入autoreleasepool的对象会由系统自动加上autorelease方法，如果该对象引用计数为0，则销毁。<br>那么ARC是为了解决什么问题诞生的呢？这个得追溯到MRC手动内存管理时代说起。<br>MRC下内存管理的缺点：<ul>
+<li>当我们要释放一个堆内存时，首先要确定指向这个堆空间的指针都被release了。（避免提前释放）</li>
+<li>释放指针指向的堆空间，首先要确定哪些指针指向同一个堆，这些指针只能释放一次。（MRC下即谁创建，谁释放，避免重复释放）</li>
+<li>模块化操作时，对象可能被多个模块创建和使用，不能确定最后由谁去释放。</li>
+<li>多线程操作时，不确定哪个线程最后使用完毕</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>请解释一下关键词的区别:</p>
+<ul>
+<li>assign &amp;&amp; weak<ul>
+<li>assign不会改变引用计数，通常用于非指针变量的基础数据类型直接赋值，weak通常用于指向同一块内存地址的对象.</li>
+<li>weak修饰的指针默认nil。在OC中向nil对象发送消息是安全的</li>
+<li><strong>block对应property的copy </strong>weak对象proerty的weak</li>
+<li>加了_block的局部变量才可以在block内进行修改</li>
+<li>__block修改数组或指针时,block只修改指针上的内容</li>
+<li>__block修改变量，内存管理的关键字为copy，会引起内存泄露。在ARC下，要避免block出现循环引用 weak typedof(self)weakSelf = self;</li>
+<li>__weak修饰变量是弱引用</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>__block在ARC和非ARC下含义一样吗？</p>
+<ul>
+<li><p>不一样的。在MRC中的block variable在block中使用是不会retain的<br>但是在ARC中的block则retain的，取而代之的是用weak或者unsafe-unretained来更精确的描述weak reference的目的。<br>其中前者只能iOS5以后才能用，但是比较好(对象release之后，指针会直接nil),后者则是ARC环境为了兼容4.x下面的</p>
+<figure class="highlight lasso"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> __block MyClass *temp = <span class="attribute">...</span>;<span class="comment">//MRC环境下使用</span></span><br><span class="line">__weak MyClass *temp = <span class="attribute">...</span>;<span class="comment">//ARC支持iOS5.0以上的版本</span></span><br><span class="line">__unsafe_retained MyClass *temp = <span class="attribute">...</span>;<span class="comment">//ARC且可兼容到4.x以下的版本</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>为什么其他语言里叫函数调用，Object-C里则叫给我对象发消息(或者谈下对runtime的理解)</p>
+<ul>
+<li>在java中，类和方法在编译期就绑定在一起</li>
+<li>在OC中，方法调用是向类发送消息,如（bady cry）在运行时会转换成objc_msgSend(bady,cry),向对象发送消息时根据isa指针找到类，在根据类的调度表查找方法，没找到方法则在父类中查找直至基类，如果始终没有找到返回nil</li>
+<li>Objective-C 的 Runtime 铸就了它动态语言的特性，这些深层次的知识虽然平时写代码用的少一些，但是却是每个 Objc 程序员需要了解的。Objc Runtime使得C具有了面向对象能力，在程序运行时创建，检查，修改类、对象和它们的方法。可以使用runtime的一系列方法实现。</li>
+</ul>
+</li>
+<li><p>什么是method swizzling?</p>
+<ul>
+<li><p>在Objective-C中调用一个方法，其实是向一个对象发送消息，查找消息的唯一依据是selector的名字。利用Objective-C的动态特性，可以实现在运行时偷换selector对应的方法实现，达到给方法挂钩的目的。<br>每个类都有一个方法列表，存放着selector的名字和方法实现的映射关系。IMP有点类似函数指针，指向具体的Method实现。<br><img src="http://ww2.sinaimg.cn/large/7c00f1e1gw1eujww2bidbj20e5078jrp.jpg" alt="image1"></p>
+<p>我们可以利用 method_exchangeImplementations 来交换2个方法中的IMP，我们可以利用 class_replaceMethod 来修改类，我们可以利用 method_setImplementation 来直接设置某个方法的IMP，归根结底，都是偷换了selector的IMP，如下图所示：</p>
+<p><img src="http://ww1.sinaimg.cn/large/7c00f1e1gw1eujwwo45b0j20df0b774w.jpg" alt="image2"></p>
+<p>详情：<a href="http://blog.csdn.net/yiyaaixuexi/article/details/9374411" target="_blank" rel="external">http://blog.csdn.net/yiyaaixuexi/article/details/9374411</a></p>
+</li>
+</ul>
+</li>
+<li><p>UIView和CALayer是什么关系?</p>
+<ul>
+<li>UIView显示在屏幕上归功于CALayer，通过调用drawRect方法来渲染自身的内容，调节CALayer属性可以调整UIView的外观，UIView继承自UIControl，比起CALayer可以响应用户操作，Xcode6之后可以方便的通过视图调试功能查看图层之间的关系</li>
+<li>UIView是iOS系统中界面元素的基础，所有的界面元素都继承自它。它本身完全是由CoreAnimation来实现的(Mac下似乎不是这样)，它真正的绘图部分，是由一个叫CALayer(Core ANimation Layer)的类来管理。UIView本身，更像是一个CALayer的管理器，访问它的跟绘图和坐标有关的属性，如frame，bounds等，实际上内部都是访问它所在CALayer的相关属性</li>
+<li><p>UIView有个layer属性，可以返回它的主CALayer实例，UIView有一个layerClass方法，返回主layer所使用的 类，UIView的子类，可以通过重载这个方法，来让UIView使用不同的CALayer来显示，例如通过</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">  - (<span class="class"><span class="keyword">class</span>) <span class="title">layerClass</span> &#123;</span></span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> ([<span class="constant">CAEAGLLayer</span> <span class="class"><span class="keyword">class</span>]);</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>使某个UIView的子类使用GL来进行绘制。</p>
+<ul>
+<li><p>UIView的CALayer类似UIView的子View树形结构，也可以向它的layer上添加子layer，来完成某些特殊的表 示。例如下面的代码<br>会在目标View上敷上一层黑色的透明薄膜。</p>
+<figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">grayCover = <span class="comment">[<span class="comment">[CALayer alloc]</span>init]</span>;</span><br><span class="line">grayCover.backgroudColor = <span class="comment">[<span class="comment">[UIColor blackColor]</span>colorWithAlphaComponent:0.2]</span>.CGColor;</span><br><span class="line"><span class="comment">[self.layer addSubLayer:grayCover]</span>;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>UIView的layer树形在系统内部，被系统维护着三份copy（这段理解有点吃不准）。</li>
+</ul>
+<ul>
+<li>逻辑树，就是代码里可以操纵的，例如更改layer的属性等等就在这一份。</li>
+<li>动画树，这是一个中间层，系统正在这一层上更改属性，进行各种渲染操作。</li>
+<li>显示树，这棵树的内容是当前正被显示在屏幕上的内容。<br>这三棵树的逻辑结构都是一样的，区别只有各自的属性。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>loadView干嘛用的?</p>
+<ul>
+<li><p>loadView在View为nil时调用，早于ViewDidLoad，通常用于代码实现控件，收到内存警告时会再次调用。loadView默认做的事情是:如果此VIewcontroller存在一个对应的nib文件，那么就加载这个nib。否则，就创建一个UIView对象。如果你用Interface BVuilder来创建界面，那么不应该重载这个方法。</p>
+</li>
+<li><p>如果你想自己创建View对象，那么可以重载这个方法，此时你需要自己给View属性赋值。你自定义的方法不应该调用super。如果你需要对View做一些其他定制操作，在ViewDidload中去做</p>
+<p>根据上面的文档可以知道，有两种情况：</p>
+<p>1、如果你用了nib文件，重载这个方法就没有太大意义。因为loadView的作用就是加载nib。如果你重载了这个方法不调用super，那么nib文件就不会被加载。如果调用了super，那么view已经加载完了，你需要做的其他事情在viewDidLoad里面做更合适。</p>
+<p>2、如果你没有用nib，这个方法默认就是创建一个空的view对象。如果你想自己控制view对象的创建，例如创建一个特殊尺寸的view，那么可以重载这个方法，自己创建一个UIView对象，然后指定 self.view = myView; 但这种情况也没有必要调用super，因为反正你也不需要在super方法里面创建的view对象。如果调用了super，那么就是浪费了一些资源而已</p>
+<p>参考：<a href="http://www.cnblogs.com/dyllove98/archive/2013/06/06/3123005.html" target="_blank" rel="external">http://www.cnblogs.com/dyllove98/archive/2013/06/06/3123005.html</a></p>
+</li>
+</ul>
+</li>
+<li><p>GCD有哪几种Queue?你自己建立过串行的Queue吗？背后的线程模型是什么样的？</p>
+<ul>
+<li>globalQueue和mainQueue</li>
+<li>建立过，欢迎页完成一系列的动画后，弹出登录框</li>
+<li>欢迎页动画并行执行，前者和后者串行执行</li>
+<li>主队列dispatch_main_queue();串行更新UI</li>
+<li>全局队列dispatch_global_queue();并行，四个优先级：background，low，default，high</li>
+<li>自定义队列dispatch_queue_t queue;可以自定义是并行DISPATCH_QUEUE_CONCURRENT或DISPATCH_QUEUE_SERIAL</li>
+</ul>
+</li>
+<li><p>用过Core Data 或者 SQLite吗？读写是分线程的吗？遇到过死锁没？如何解决的？</p>
+<ul>
+<li>用过SQLite，丢给FMDatabaseQueue或者NSLock加锁</li>
+</ul>
+</li>
+<li><p>HTTP协议中POST方法和GET方法有那些区别?</p>
+<ul>
+<li>GET用于向服务器请求数据POST用于提交数据</li>
+<li>GET请求，请求提以参数拼接形式暴露在地址栏，而POST请求则放在请求体里面，因此GET请求不适合用于验证密码等操作</li>
+<li>更加服务器不同，POST请求会有不同的长度限制</li>
+</ul>
+</li>
+<li><p>什么是二叉搜索树？时间复杂度是什么？</p>
+<ul>
+<li>采用二叉树链表作为存储结构，每个左节点均小于父节点，每个右节点均大于父节点</li>
+<li>O(log2(n))</li>
+</ul>
+</li>
+<li><p>沙盒目录结构是怎样的？各自用于那些场景？</p>
+<ul>
+<li>Application//存放程序源文件，上架前经过数字签名，上架后不可修改</li>
+<li>Documents//常用目录，iCloud备份目录，存放数据</li>
+<li>Library<ul>
+<li>Caches//存放体积大又不需要备份的数据</li>
+<li>Preference//设置目录，iCloud会备份设置信息</li>
+</ul>
+</li>
+<li>tmp//存放临时文件</li>
+</ul>
+</li>
+<li><p>#define和const变量有什么区别?</p>
+<ul>
+<li>define在预处理阶段进行简单的替换，const在编译阶段使用</li>
+<li>宏不做类型检查，仅仅展开替换，const有数据类型，会执行类型检查</li>
+<li>宏不分配内存，仅仅展开替换，const会分配内存</li>
+<li>define不能调试，const可以调试</li>
+<li>define定义的常量在替换后运行过程中会不断地占用内存，而const定义的常量存储在数据段，只有一份copy，效率更高</li>
+<li>definde可以定义一些简单的函数，const不可以</li>
+</ul>
+</li>
+<li><p>TCP和UDP有什么区别？</p>
+<ul>
+<li>TCP是面向连接的，建立连接需要经历三次握手，保证数据正确性和数据顺序</li>
+<li>UDP是非连接的协议，传送数据受生成速度，传输带宽等限制，可能造成丢包</li>
+<li>UDP一台服务端可以同时向多个客户端传输信息</li>
+<li>TCP报头体积更大，对系统资源要求更多 </li>
+</ul>
+</li>
+<li><p>如何制作一个静态库/动态库?他们的区别是什么？</p>
+<ul>
+<li>Xcode6支持制作静态库/动态库 framework</li>
+<li>无论是动态库还是静态库都是区分真机和模拟器的，需要lipo命令进行合并</li>
+<li>静态库编译静态库文件装入程序空间，动态库是文件动态装入内存</li>
+<li>动态库执行到相关函数才会被调用，节省空间</li>
+</ul>
+</li>
+<li><p>请简单的介绍下APNS发送系统消息的机制</p>
+<ul>
+<li>为什么需要APNS？为了杜绝安卓那种为了接受通知不停后台唤醒保持长连接的行为</li>
+<li>由iOS系统和APNS进行长连接替代<ul>
+<li>应用在通知中心就像注册，由iOS系统向APNS请求返回设备令牌</li>
+<li>应用程序接收到设备令牌并发送给服务器</li>
+<li>服务器把要推送的内容和设备发送给APNS</li>
+<li>APNS根据设备令牌找到设备，再由iOS根据APPID把推送内容展示</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>请简述Responder Chain？</p>
+<ul>
+<li>UIResponder是UIView 和 UIViewController共同的父类，负责分发处理事件</li>
+<li>在捕获到UIEvent后从AppDelegate-&gt;UIAppcation-&gt;UIWindow-&gt;UIViewController-&gt;UIView-&gt;SubView 进行查找</li>
+<li>然后从SubView开始尝试响应这个事件，并传递给nextResponder，如果父节点不能响应则不再继续传递</li>
+</ul>
+</li>
+<li><p>pushViewController和presentViewController有什么区别？</p>
+<ul>
+<li>两者都是在多个试图控制器间跳转的函数</li>
+<li>presentViewController提供的是一个模态视图控制器</li>
+<li>pushViewController提供一个栈控制器数组，push/pop</li>
+</ul>
+</li>
+<li><p>请简述UITableView的复用机制</p>
+<ul>
+<li>UITableView在创建表视图时，不会创建numberOfRowsInSection那么多的cell，不然在所有APP标配上拉加载更多条件下，iPhone内存必然是吃不消的，通常只会创建当前页面最大可显示Cell个数加一个（实际测试有时会加二），Cell离开当前屏幕后会从队列中移除，也是基于这个原因，确定高度的Cell因为页面要显示的Cell个数唯一确定，所以在性能上能够有所提高</li>
+<li>复用队列的元素增加：只有在cell被滑动出界面的时候，此cell才会被加入到复用队列中。每次在创建cell的时候，程序会首先通过调用dequeueReusableCellWithIdentifier:cellType方法，到复用队列中去寻找标示符为”cellType”的cell，如果找不到，返回nil，然后程序去通过调用[[[UITableViewCell alloc] initWithStyle:style reuseIdentifier:cellType] autorelease]来创建标示符为”cellType”的cell。</li>
+</ul>
+</li>
+<li><p>如何应对APP版本升级，数据结构随之变化?</p>
+<ul>
+<li>自己解除的Sqlite相对多一些，通常的作法是重命名旧版数据库文件-&gt;创建新版本表格-&gt;导入旧版本数据-&gt;删除旧版本表</li>
+<li>跨版本升级的问题，数据库更新的相关操作不做合并，依次迭代更新</li>
+<li>Core data接触不多，大部分改动都在轻量化迁移支持范围内，复杂的需要重写指定映射关系</li>
+</ul>
+</li>
+<li><p>描述一个你所遇到retain cycle例子</p>
+<p>block中的循环引用:一个ViewController</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>,<span class="keyword">strong</span>)HttpRequestHandler * handler;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>,<span class="keyword">strong</span>)<span class="built_in">NSData</span>             *data;</span><br><span class="line">_handler = [httpRequestHandler sharedManager];</span><br><span class="line">[ downloadData:^(<span class="keyword">id</span> responseData)&#123;</span><br><span class="line">    _data = responseData;</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<p>self 拥有_handler, _handler 拥有block, block拥有self（因为使用了self的_data属性，block会copy 一份self）<br>解决方法：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"> __<span class="keyword">weak</span> typedof(<span class="keyword">self</span>)weakSelf = <span class="keyword">self</span></span><br><span class="line">[ downloadData:^(<span class="keyword">id</span> responseData)&#123;</span><br><span class="line">    weakSelf<span class="variable">.data</span> = responseData;</span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>+(void)load; +(void)initialize；有什么用处？</p>
+<ul>
+<li><p>当类对象被引入项目时, runtime 会向每一个类对象发送 load 消息. load 方法还是非常的神奇的, 因为它会在每一个类甚至分类被引入时仅调用一次, 调用的顺序是父类优先于子类, 子类优先于分类. 而且 load 方法不会被类自动继承, 每一个类中的 load 方法都不需要像 viewDidLoad 方法一样调用父类的方法. 由于 load 方法会在类被 import 时调用一次, 而这时往往是改变类的行为的最佳时机. 我在 DKNightVersion 中使用 method swizlling 来修改原有的方法时, 就是在分类 load 中实现的.</p>
+<p> initialize 方法和 load 方法有一些不同, 它虽然也会在整个 runtime 过程中调用一次, 但是它是在该类的第一个方法执行之前调用, 也就是说 initialize 的调用是惰性的, 它的实现也与我们在平时使用的惰性初始化属性时基本相同. 我在实际的项目中并没有遇到过必须使用这个方法的情况, 在该方法中主要做静态变量的设置并用于确保在实例初始化前某些条件必须满足.</p>
+</li>
+<li><p>在Objective-C中，runtime会自动调用每个类的两个方法。+load会在类初始加载时调用，+initialize会在第一次调用类的类方法或实例方法之前被调用。这两个方法是可选的，且只有在实现了它们时才会被调用。<br>共同点：两个方法都只会被调用一次。</p>
+</li>
+</ul>
+</li>
+<li><p>如何高性能的给 UIImageView 加个圆角? (不准说 layer.cornerRadius!)</p>
+<ul>
+<li>一般情况下给 UIImageView 或者说 UIKit 的控件添加圆角都是改变 <code>clipsToBounds</code> 和 <code>layer.cornerRadius</code>, 这样大约两行代码就可以解决这个问题. 但是, 这样使用这样的方法会强制<br><strong>Core Animation</strong> 提前渲染屏幕的离屏绘制, 而离屏绘制就会为性能带来负面影响.</li>
+</ul>
+<p>我们也可以使用另一种比较复杂的方式来为图片添加圆角, 这里就用到了贝塞尔曲线.</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">    <span class="built_in">UIImageView</span> *imageView = [[<span class="built_in">UIImageView</span> alloc] initWithFrame:<span class="built_in">CGRectMake</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">100</span>, <span class="number">100</span>)];  </span><br><span class="line">imageView<span class="variable">.center</span> = <span class="built_in">CGPointMake</span>(<span class="number">200</span>, <span class="number">300</span>);  </span><br><span class="line"><span class="built_in">UIImage</span> *anotherImage = [<span class="built_in">UIImage</span> imageNamed:<span class="string">@"image"</span>];  </span><br><span class="line"><span class="built_in">UIGraphicsBeginImageContextWithOptions</span>(imageView<span class="variable">.bounds</span><span class="variable">.size</span>, <span class="literal">NO</span>, <span class="number">1.0</span>);  </span><br><span class="line">[[<span class="built_in">UIBezierPath</span> bezierPathWithRoundedRect:imageView<span class="variable">.bounds</span></span><br><span class="line">                           cornerRadius:<span class="number">50</span>] addClip];</span><br><span class="line">[anotherImage drawInRect:imageView<span class="variable">.bounds</span>];</span><br><span class="line">imageView<span class="variable">.image</span> = <span class="built_in">UIGraphicsGetImageFromCurrentImageContext</span>();  </span><br><span class="line"><span class="built_in">UIGraphicsEndImageContext</span>();  </span><br><span class="line">[<span class="keyword">self</span><span class="variable">.view</span> addSubview:imageView];</span><br></pre></td></tr></table></figure>
+<p>在这里使用了贝塞尔曲线”切割”个这个图片, 给 <code>UIImageView</code> 添加了的圆角.</p>
+</li>
+<li><p>使用drawRect有什么影响？（这个可深可浅，你至少得用过。。）</p>
+<ul>
+<li><p>drawRect方法依赖Core Graphics框架来进行自定义的绘制，但这种方法主要的缺点就是它处理touch事件的方式：每次按钮被点击后，都会用setNeddsDisplay进行强制重绘；而且不止一次，每次单点事件触发两次执行。这样的话从性能的角度来说，对CPU和内存来说都是欠佳的。特别是如果在我们的界面上有多个这样的UIButton实例。</p>
+<ul>
+<li><p>这个方法的主要作用是根据传入的 rect 来绘制图像 <a href="https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIView_Class/#//apple_ref/occ/instm/UIView/drawRect:" target="_blank" rel="external">参见文档</a>. 这个方法的默认实现没有做任何事情, 我们可以在这个方法中使用 Core Graphics 和 UIKit 来绘制视图的内容.</p>
+<p>这个方法的调用机制也是非常特别. 当你调用 setNeedsDisplay 方法时, UIKit 将会把当前图层标记为 dirty, 但还是会显示原来的内容, 直到下一次的视图渲染周期, 才会为标记为 dirty 的图层重新建立 Core Graphics 上下文, 然后将内存中的数据恢复出来, 再使用 CGContextRef 进行绘制.</p>
+<p>相关参考:<a href="http://xyxdasnjss.iteye.com/blog/1827954" target="_blank" rel="external">UIView的layoutSubviews和drawRect方法何时调用</a></p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>ASIHttpRequest 或者 SDWebImage 里面给 UIImageView 加载图片的逻辑是什么样的?</p>
+<ul>
+<li><p>我曾经阅读过 SDWebImage 的源代码, 就在这里对如何给 UIImageView 加载图片做一个总结吧, SDWebImage 中为 UIView 提供了一个分类叫做 WebCache, 这个分类中有一个最常用的接口, sd_setImageWithURL:placeholderImage:, 这个分类同时提供了很多类似的方法, 这些方法最终会调用一个同时具有 option progressBlock completionBlock 的方法, 而在这个类最终被调用的方法首先会检查是否传入了 placeholderImage 以及对应的参数, 并设置 placeholderImage.</p>
+<p>然后会获取 SDWebImageManager 中的单例调用一个 downloadImageWithURL:… 的方法来获取图片, 而这个 manager 获取图片的过程有大体上分为两部分, 它首先会在 SDWebImageCache 中寻找图片是否有对应的缓存, 它会以 url 作为数据的索引先在内存中寻找是否有对应的缓存, 如果缓存未命中就会在磁盘中利用 MD5 处理过的 key 来继续查询对应的数据, 如果找到了, 就会把磁盘中的缓存备份到内存中.</p>
+<p>然而, 假设我们在内存和磁盘缓存中都没有命中, 那么 manager 就会调用它持有的一个 SDWebImageDownloader 对象的方法 downloadImageWithURL:… 来下载图片, 这个方法会在执行的过程中调用另一个方法 addProgressCallback:andCompletedBlock:fotURL:createCallback: 来存储下载过程中和下载完成的回调, 当回调块是第一次添加的时候, 方法会实例化一个 NSMutableURLRequest 和 SDWebImageDownloaderOperation, 并将后者加入 downloader 持有的下载队列开始图片的异步下载.<br>而在图片下载完成之后, 就会在主线程设置 image, 完成整个图像的异步下载和配置.</p>
+</li>
+</ul>
+</li>
+<li><p>使用atomic一定是线程安全的吗？</p>
+<ul>
+<li>不是，atomic的本意是指属性的存取方法是线程安全的（thread safe)，并不保证整个对象是线程安全的。比如，声明一个NSMutableArray的原子属性stuff，此时self.stuff 和self.stuff = othersulf都是线程安全的。但是，使用[self.stuff objectAtIndex:index]就不是线程安全的，需要用锁来保证线程安全性。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<blockquote>
+<p>参考:<br><a href="http://www.zhihu.com/question/19604641" target="_blank" rel="external">http://www.zhihu.com/question/19604641</a><br> <a href="http://draveness.me/guan-yu-xie-ios-wen-ti-de-jie-da/" target="_blank" rel="external">http://draveness.me/guan-yu-xie-ios-wen-ti-de-jie-da/</a><br><a href="http://www.jianshu.com/p/d72c4b595c7b" target="_blank" rel="external">http://www.jianshu.com/p/d72c4b595c7b</a><br><a href="http://weibo.com/1832164643/Ct3B4hzl3?type=comment#_rnd1438104612567" target="_blank" rel="external">http://weibo.com/1832164643/Ct3B4hzl3?type=comment#_rnd1438104612567</a></p>
+</blockquote>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><img src="http://ww4.sinaimg.cn/large/7c00f1e1gw1ev4yg5cdyqj20ia0c4q3w.jpg" class="full-image" /></p>
+<blockquote class="blockquote-center">还有很长的路要走<br>还有很多的事要做</blockquote>]]>
+    
+    </summary>
+    
+      <category term="面试" scheme="http://tasselx.github.io/tags/%E9%9D%A2%E8%AF%95/"/>
+    
+      <category term="iOS" scheme="http://tasselx.github.io/categories/iOS/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[解决npm install time out问题]]></title>
+    <link href="http://tasselx.github.io/2015/07/16/npm-install-freeze/"/>
+    <id>http://tasselx.github.io/2015/07/16/npm-install-freeze/</id>
+    <published>2015-07-16T09:16:58.000Z</published>
+    <updated>2015-08-16T18:03:44.000Z</updated>
+    <content type="html"><![CDATA[<p><img src="http://ww3.sinaimg.cn/large/7c00f1e1gw1ev4zpgmrmkj20ia0c7wf1.jpg" class="full-image"></p>
+<blockquote class="blockquote-center">想要追逐更高的天空</blockquote>
+
+<a id="more"></a>
+<blockquote>
+<p>常在天朝走，哪有不被墙呢，这不npm install安装超时了，在网络上搜索了一番找到了一些解决办法，分享如下</p>
+</blockquote>
+<ul>
+<li><p>解决办法1: 开VPN，对就是VPN，最直接也是最有效的办法</p>
+</li>
+<li><p>解决办法2: 使用淘宝提供的npm镜像加速服务。</p>
+<p>安装cnpm <code>npm install cnpm -g</code></p>
+<p>然后安装npm包就可以使用cnpm命令了，如<code>cnpm install express -g</code></p>
+<p>然后就可以顺畅的使用npm包了</p>
+</li>
+</ul>
+]]></content>
+    <summary type="html">
+    <![CDATA[<p><img src="http://ww3.sinaimg.cn/large/7c00f1e1gw1ev4zpgmrmkj20ia0c7wf1.jpg"  class="full-image" /></p>
+<blockquote class="blockquote-center">想要追逐更高的天空</blockquote>]]>
+    
+    </summary>
+    
+      <category term="Node.js" scheme="http://tasselx.github.io/tags/Node-js/"/>
+    
+  </entry>
+  
+  <entry>
+    <title><![CDATA[面试题]]></title>
+    <link href="http://tasselx.github.io/2015/07/16/Interview/"/>
+    <id>http://tasselx.github.io/2015/07/16/Interview/</id>
+    <published>2015-07-16T05:31:57.000Z</published>
+    <updated>2015-08-16T18:16:38.000Z</updated>
+    <content type="html"><![CDATA[<p><img src="http://ww3.sinaimg.cn/large/7c00f1e1gw1ev506yzdjyj20ia0c7405.jpg" class="fullimage"></p>
+<blockquote class="blockquote-center">一叶障目<br>不见泰山</blockquote>
+
+<a id="more"></a>
+<blockquote>
+<blockquote>
+<p>记一次面试过程遇到的东西吧,总结一下</p>
+</blockquote>
+</blockquote>
+<p>##笔试题</p>
+<p>###题1</p>
+<blockquote>
+<p>int a[5]={1,2,3,4,5};int <em>p=(int </em>)(&amp;a+1);问<em>(a+1),</em>(p-1)是多少</p>
+</blockquote>
+<p>答:<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">*(a+<span class="number">1</span>）就是a[<span class="number">1</span>]，*(p-<span class="number">1</span>)就是a[<span class="number">4</span>],执行结果是<span class="number">2</span>，<span class="number">5</span></span><br><span class="line">&amp;a+<span class="number">1</span>不是首地址+<span class="number">1</span>，系统会认为加一个a数组的偏移，是偏移了一个数组的大小（本例是<span class="number">5</span>个<span class="keyword">int</span>）</span><br><span class="line"><span class="keyword">int</span> *p=(<span class="keyword">int</span> *)(&amp;a+<span class="number">1</span>);</span><br><span class="line">则p实际是&amp;(a[<span class="number">5</span>]),也就是a+<span class="number">5</span></span><br><span class="line">原因如下：</span><br><span class="line"> &amp;a是数组指针，其类型为 <span class="keyword">int</span> (*)[<span class="number">5</span>];</span><br><span class="line">而指针加<span class="number">1</span>要根据指针类型加上一定的值，不同类型的指针+<span class="number">1</span>之后增加的大小不同。</span><br><span class="line">a是长度为<span class="number">5</span>的<span class="keyword">int</span>数组指针，所以要加 <span class="number">5</span>*<span class="keyword">sizeof</span>(<span class="keyword">int</span>)</span><br><span class="line">所以p实际是a[<span class="number">5</span>]</span><br><span class="line">但是p与(&amp;a+<span class="number">1</span>)类型是不一样的(这点很重要)</span><br><span class="line">所以p-<span class="number">1</span>只会减去<span class="keyword">sizeof</span>(<span class="keyword">int</span>*)</span><br><span class="line">a,&amp;a的地址是一样的，但意思不一样</span><br><span class="line">a是数组首地址，也就是a[<span class="number">0</span>]的地址，&amp;a是对象（数组）首地址，</span><br><span class="line">a+<span class="number">1</span>是数组下一元素的地址，即a[<span class="number">1</span>],&amp;a+<span class="number">1</span>是下一个对象的地址，即a[<span class="number">5</span>].</span><br></pre></td></tr></table></figure></p>
+<p>###题2</p>
+<blockquote>
+<p>frame和bounds有什么不同，size是否会不同？</p>
+</blockquote>
+<p>###题3</p>
+<blockquote>
+<p>readwrite，readonly，assign，retain，copy，nonatomic 属性的作用</p>
+</blockquote>
+<p>答<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">@property是一个属性访问声明，扩号内支持以下几个属性：</span><br><span class="line"><span class="number">1</span>，getter=getterName，setter=setterName，设置setter与 getter的方法名</span><br><span class="line"><span class="number">2</span>，readwrite,readonly，设置可供访问级别</span><br><span class="line"><span class="number">2</span>，assign，setter方法直接赋值，不进行任何retain操作，为了解决原类型与环循引用问题</span><br><span class="line"><span class="number">3</span>，retain，setter方法对参数进行release旧值再retain新值，所有实现都是这个顺序(CC上有相关资料)</span><br><span class="line"><span class="number">4</span>，copy，setter方法进行Copy操作，与retain处理流程一样，先旧值release，再 Copy出新的对象，retainCount为<span class="number">1</span>。</span><br><span class="line">   这是为了减少对上下文的依赖而引入的机制。</span><br><span class="line"><span class="number">5</span>，nonatomic，非原子性访问，不加同步，多线程并发访问会提高性能。注意，如果不加此属性，则默认是两个访问方法</span><br><span class="line">   都为原子型事务访问。锁被加到所属对象实例级(我是这么理解的...)。</span><br></pre></td></tr></table></figure></p>
+<p>###题4</p>
+<blockquote>
+<p>求2-100之间的素数(质数)和</p>
+</blockquote>
+<p>答</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">int</span> <span class="built_in">num</span>;</span><br><span class="line"><span class="built_in">int</span> i;</span><br><span class="line"><span class="built_in">int</span> sum;</span><br><span class="line">        </span><br><span class="line"><span class="keyword">for</span> (<span class="built_in">num</span> = <span class="number">2</span>; <span class="built_in">num</span>&lt;=<span class="number">100</span>; <span class="built_in">num</span>++) &#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (i=<span class="number">2</span>; i&lt;=<span class="built_in">num</span>; i++) &#123;</span><br><span class="line">            <span class="comment">//遇到能相除余为0的就跳出循环，然后当前num 和 当前除数相比，除数最大的那一时刻的num值</span></span><br><span class="line">                <span class="keyword">if</span> (<span class="built_in">num</span>%i==<span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//也即是本事是自己最大的能相除的数</span></span><br><span class="line">            <span class="keyword">if</span> (i&gt;=<span class="built_in">num</span>) &#123;</span><br><span class="line">                sum+=<span class="built_in">num</span>;</span><br><span class="line">                printf(<span class="string">"素数 %d"</span>,<span class="built_in">num</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">    </span><br><span class="line">        printf(<span class="string">"总和为 %d"</span>,sum);</span><br></pre></td></tr></table></figure>
+<p>##逻辑题</p>
+<p>###逻辑题1</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#19968;&#23618;&#27004;,&#26377;10&#32423;&#21488;&#38454;,&#21487;&#20197;&#19968;&#27493;&#12289;&#20108;&#27493;&#25110;&#19977;&#27493;&#36208;,&#26377;&#20960;&#31181;&#36208;&#27861;?&#10;&#20855;&#20307;&#22320;&#35828;</span><br></pre></td></tr></table></figure>
+<p>答</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">逐次累加法</span><br><span class="line">到第一层：<span class="number">1</span>种</span><br><span class="line">到第二层：<span class="number">2</span>种</span><br><span class="line">到第三层：<span class="number">4</span>种,分别为</span><br><span class="line"><span class="number">1</span> <span class="number">1</span> <span class="number">1</span> </span><br><span class="line"><span class="number">1</span> <span class="number">2</span></span><br><span class="line"><span class="number">2</span> <span class="number">1</span></span><br><span class="line"><span class="number">3</span></span><br><span class="line">到第四层 <span class="number">7</span>种.计算过程为：</span><br><span class="line">到第一层的方法数 + 到第二层方法数 + 到第三层方法数.分别为</span><br><span class="line"><span class="number">1</span> -- <span class="number">3</span></span><br><span class="line"><span class="number">1</span> <span class="number">1</span> -- <span class="number">2</span></span><br><span class="line"><span class="number">2</span> -- <span class="number">2</span></span><br><span class="line"><span class="number">1</span> <span class="number">1</span> <span class="number">1</span> -- <span class="number">1</span></span><br><span class="line"><span class="number">1</span> <span class="number">2</span> -- <span class="number">1</span></span><br><span class="line"><span class="number">2</span> <span class="number">1</span> -- <span class="number">1</span></span><br><span class="line"><span class="number">3</span> -- <span class="number">1</span></span><br><span class="line">到第五层方法数：<span class="number">13</span>种</span><br><span class="line">计算过程为：到第二层的方法数 + 到第三层方法数 + 到第四层方法数.</span><br><span class="line">具体为</span><br><span class="line"><span class="number">1</span> <span class="number">1</span> -- <span class="number">3</span></span><br><span class="line"><span class="number">2</span> -- <span class="number">3</span></span><br><span class="line"><span class="number">1</span> <span class="number">1</span> <span class="number">1</span> -- <span class="number">2</span></span><br><span class="line"><span class="number">1</span> <span class="number">2</span> -- <span class="number">2</span></span><br><span class="line"><span class="number">2</span> <span class="number">1</span> -- <span class="number">2</span></span><br><span class="line"><span class="number">3</span> -- <span class="number">2</span></span><br><span class="line"><span class="number">1</span> <span class="number">3</span> -- <span class="number">1</span></span><br><span class="line"><span class="number">1</span> <span class="number">1</span> <span class="number">2</span> -- <span class="number">1</span></span><br><span class="line"><span class="number">2</span> <span class="number">2</span> -- <span class="number">1</span></span><br><span class="line"><span class="number">1</span> <span class="number">1</span> <span class="number">1</span> <span class="number">1</span> -- <span class="number">1</span></span><br><span class="line"><span class="number">1</span> <span class="number">2</span> <span class="number">1</span> -- <span class="number">1</span></span><br><span class="line"><span class="number">2</span> <span class="number">1</span> <span class="number">1</span> -- <span class="number">1</span></span><br><span class="line"><span class="number">3</span> <span class="number">1</span> -- <span class="number">1</span></span><br><span class="line">余此类推：</span><br><span class="line">到第六层 = 到第三层+到第四层+到第五层 = <span class="number">4</span>+<span class="number">7</span>+<span class="number">13</span> = <span class="number">24</span></span><br><span class="line">到第七层 = 到第四层+到第五层+到第六层 = <span class="number">7</span>+<span class="number">13</span>+<span class="number">24</span> = <span class="number">44</span></span><br><span class="line">到第八层 = 到第五层+到第六层+到第七层 = <span class="number">13</span>+<span class="number">24</span>+<span class="number">44</span> = <span class="number">81</span></span><br><span class="line">到第九层 = 到第六层+到第七层+到第八层 = <span class="number">24</span>+<span class="number">44</span>+<span class="number">81</span> = <span class="number">149</span></span><br><span class="line">到第十层 = 到第七层+到第八层+到第九层 = <span class="number">44</span>+<span class="number">81</span>+<span class="number">149</span> = <span class="number">274</span></span><br><span class="line">---------------------------</span><br><span class="line">说明：在这种思路中,比如计算到达第九层的方法数时候,到第<span class="number">6</span>层后要直接迈<span class="number">3</span>步到达第<span class="number">9</span>层,到第<span class="number">7</span>层后要直接迈<span class="number">2</span>步到达第<span class="number">9</span>层.不考虑从第<span class="number">6</span>层开始迈<span class="number">1</span>步或<span class="number">2</span>步的情况,以免重复计算.</span><br></pre></td></tr></table></figure>
+<p>###逻辑题2</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">甲、乙、丙三人讨论一道题，当每一个人都把自己的解法说出后，甲说：“我做错了。”乙说：“甲做对了。”丙说：“我做错了。”老师看过他们的答案，并听了他们的上述意见后，说三个人中有一个答案正确，有一个意见正确。 ? ?由此可知，谁的意见正确</span><br></pre></td></tr></table></figure>
+<p>答</p>
+<figure class="highlight gcode"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">三个人的意见只有一人正确，首先可以看出甲和乙的意见矛盾，必有一真一假，据此推出丙的意见必然为假，即丙没做错，丙的答案是对的。三人中只有一人答案正确，据此可以推出甲说真话<span class="comment">(甲的意见正确)</span></span><br></pre></td></tr></table></figure>
+<p>###逻辑题3</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">12</span>个相同小球里面有一个重量不一样<span class="number">3</span>次找出来</span><br></pre></td></tr></table></figure>
+<p>答</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>]]></content>
+    <summary type="html">
+    <![CDATA[<p><img src="http://ww3.sinaimg.cn/large/7c00f1e1gw1ev506yzdjyj20ia0c7405.jpg" class = "fullimage" /></p>
+<blockquote class="blockquote-center">一叶障目<br>不见泰山</blockquote>]]>
+    
+    </summary>
+    
+      <category term="iOS开发" scheme="http://tasselx.github.io/tags/iOS%E5%BC%80%E5%8F%91/"/>
+    
+      <category term="面试" scheme="http://tasselx.github.io/tags/%E9%9D%A2%E8%AF%95/"/>
+    
+  </entry>
+  
+</feed>
