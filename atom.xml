@@ -4,7 +4,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://tasselx.github.io/"/>
-  <updated>2015-10-30T11:58:10.000Z</updated>
+  <updated>2015-10-30T12:00:15.000Z</updated>
   <id>http://tasselx.github.io/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://tasselx.github.io/2015/10/30/Podfile-Syntax-Reference/"/>
     <id>http://tasselx.github.io/2015/10/30/Podfile-Syntax-Reference/</id>
     <published>2015-10-30T11:56:34.000Z</published>
-    <updated>2015-10-30T11:58:10.000Z</updated>
+    <updated>2015-10-30T12:00:15.000Z</updated>
     <content type="html"><![CDATA[<p>本文翻译自官方的<a href="https://guides.cocoapods.org/syntax/podfile.html" target="_blank" rel="external">Podfile Syntax Reference</a>,也参考了之前一位博主的<a href="http://www.tomatopeter.com/blog/2014/11/22/podfile-syntax-reference-chinese/" target="_blank" rel="external">翻译</a>，若翻译中有什么异议，欢迎留言指正。</p>
 <p>##Podfile</p>
 <p>Podfile文件详细描述了一个或多个工程中targets的依赖关系。Podfile会默认创建一个隐式的目标链接到工程中用户的第一个target，名称为“default”。</p>
@@ -129,7 +129,8 @@
 <p>它接受<a href="http://rubydoc.info/gems/cocoapods/Pod/Installer/" target="_blank" rel="external">Pod::Installer</a>作为唯一参数</p>
 <p>例子:</p>
 <p>给所有target自定义编译配置</p>
-<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">post_install <span class="built_in">do</span> |installer|</span><br><span class="line">  installer.pods_project.targets.<span class="keyword">each</span> <span class="built_in">do</span> |target|</span><br><span class="line">    target.build_configurations.<span class="keyword">each</span> <span class="built_in">do</span> |config|</span><br><span class="line">      config.build_settings[<span class="string">'GCC_ENABLE_OBJC_GC'</span>] = <span class="string">'supported'</span></span><br><span class="line">    <span class="function"><span class="keyword">end</span></span><br><span class="line">  <span class="title">end</span></span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>]]></content>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">post_install <span class="built_in">do</span> |installer|</span><br><span class="line">  installer.pods_project.targets.<span class="keyword">each</span> <span class="built_in">do</span> |target|</span><br><span class="line">    target.build_configurations.<span class="keyword">each</span> <span class="built_in">do</span> |config|</span><br><span class="line">      config.build_settings[<span class="string">'GCC_ENABLE_OBJC_GC'</span>] = <span class="string">'supported'</span></span><br><span class="line">    <span class="function"><span class="keyword">end</span></span><br><span class="line">  <span class="title">end</span></span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+]]></content>
     <summary type="html">
     <![CDATA[<p>本文翻译自官方的<a href="https://guides.cocoapods.org/syntax/podfile.html" target="_blank" rel="external">Podfile Syntax Reference</a>,也参考了之前一位博主]]>
     </summary>
