@@ -39,25 +39,16 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.4" />
 
 
-<meta name="description" content="本文翻译自官方的Podfile Syntax Reference,也参考了之前一位博主的翻译，若翻译中有什么异议，欢迎留言指正。
-PodfilePodfile文件详细描述了一个或多个工程中targets的依赖关系。Podfile会默认创建一个隐式的目标链接到工程中用户的第一个target，名称为“default”。
-一个Podfile可以非常简单:
-1pod &apos;AFNetworking&apos;, &apos;~&amp;">
+<meta name="description" content="本文翻译自官方的Podfile Syntax Reference,也参考了之前一位博主的翻译，若翻译中有什么异议，欢迎留言指正。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Podfile语法参考（译）">
 <meta property="og:url" content="http://tasselx.github.io/2015/10/30/Podfile-Syntax-Reference/index.html">
 <meta property="og:site_name" content="Tassel's Blog">
-<meta property="og:description" content="本文翻译自官方的Podfile Syntax Reference,也参考了之前一位博主的翻译，若翻译中有什么异议，欢迎留言指正。
-PodfilePodfile文件详细描述了一个或多个工程中targets的依赖关系。Podfile会默认创建一个隐式的目标链接到工程中用户的第一个target，名称为“default”。
-一个Podfile可以非常简单:
-1pod &apos;AFNetworking&apos;, &apos;~&amp;">
-<meta property="og:updated_time" content="2015-10-30T12:13:38.000Z">
+<meta property="og:description" content="本文翻译自官方的Podfile Syntax Reference,也参考了之前一位博主的翻译，若翻译中有什么异议，欢迎留言指正。">
+<meta property="og:updated_time" content="2015-10-30T12:15:33.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Podfile语法参考（译）">
-<meta name="twitter:description" content="本文翻译自官方的Podfile Syntax Reference,也参考了之前一位博主的翻译，若翻译中有什么异议，欢迎留言指正。
-PodfilePodfile文件详细描述了一个或多个工程中targets的依赖关系。Podfile会默认创建一个隐式的目标链接到工程中用户的第一个target，名称为“default”。
-一个Podfile可以非常简单:
-1pod &apos;AFNetworking&apos;, &apos;~&amp;">
+<meta name="twitter:description" content="本文翻译自官方的Podfile Syntax Reference,也参考了之前一位博主的翻译，若翻译中有什么异议，欢迎留言指正。">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -252,7 +243,7 @@ PodfilePodfile文件详细描述了一个或多个工程中targets的依赖关�
       
 
       
-        <span itemprop="articleBody"><p>本文翻译自官方的<a href="https://guides.cocoapods.org/syntax/podfile.html" target="_blank" rel="external">Podfile Syntax Reference</a>,也参考了之前一位博主的<a href="http://www.tomatopeter.com/blog/2014/11/22/podfile-syntax-reference-chinese/" target="_blank" rel="external">翻译</a>，若翻译中有什么异议，欢迎留言指正。</p>
+        <span itemprop="articleBody"><p>本文翻译自官方的<a href="https://guides.cocoapods.org/syntax/podfile.html" target="_blank" rel="external">Podfile Syntax Reference</a>,也参考了之前一位博主的<a href="http://www.tomatopeter.com/blog/2014/11/22/podfile-syntax-reference-chinese/" target="_blank" rel="external">翻译</a>，若翻译中有什么异议，欢迎留言指正。<br><a id="more"></a></p>
 <h2 id="Podfile">Podfile</h2><p>Podfile文件详细描述了一个或多个工程中targets的依赖关系。Podfile会默认创建一个隐式的目标链接到工程中用户的第一个target，名称为“default”。</p>
 <p>一个Podfile可以非常简单:</p>
 <figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">pod</span> <span class="string">'AFNetworking'</span>, <span class="string">'~&gt; 1.0'</span></span><br></pre></td></tr></table></figure>
