@@ -4,7 +4,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://tasselx.github.io/"/>
-  <updated>2015-08-16T17:39:03.000Z</updated>
+  <updated>2015-10-30T11:58:10.000Z</updated>
   <id>http://tasselx.github.io/</id>
   
   <author>
@@ -13,6 +13,132 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Podfile Syntax Reference]]></title>
+    <link href="http://tasselx.github.io/2015/10/30/Podfile-Syntax-Reference/"/>
+    <id>http://tasselx.github.io/2015/10/30/Podfile-Syntax-Reference/</id>
+    <published>2015-10-30T11:56:34.000Z</published>
+    <updated>2015-10-30T11:58:10.000Z</updated>
+    <content type="html"><![CDATA[<p>本文翻译自官方的<a href="https://guides.cocoapods.org/syntax/podfile.html" target="_blank" rel="external">Podfile Syntax Reference</a>,也参考了之前一位博主的<a href="http://www.tomatopeter.com/blog/2014/11/22/podfile-syntax-reference-chinese/" target="_blank" rel="external">翻译</a>，若翻译中有什么异议，欢迎留言指正。</p>
+<p>##Podfile</p>
+<p>Podfile文件详细描述了一个或多个工程中targets的依赖关系。Podfile会默认创建一个隐式的目标链接到工程中用户的第一个target，名称为“default”。</p>
+<p>一个Podfile可以非常简单:<br><figure class="highlight"><figcaption><span>'AFNetworking', '~> 1.0'```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#10;&#20063;&#21487;&#20197;&#37197;&#32622;&#30340;&#22797;&#26434;&#19968;&#28857;,&#22914;&#19979;:</span><br></pre></td></tr></table></figure></p>
+<p>source ‘<a href="https://github.com/CocoaPods/Specs.git" target="_blank" rel="external">https://github.com/CocoaPods/Specs.git</a>‘</p>
+<p>platform :ios, ‘6.0’<br>inhibit_all_warnings!</p>
+<p>xcodeproj ‘MyProject’</p>
+<p>pod ‘ObjectiveSugar’, ‘~&gt; 0.5’</p>
+<p>target :test do<br>  pod ‘OCMock’, ‘~&gt; 2.0.1’<br>end</p>
+<p>post_install do |installer|<br>  installer.pods_project.targets.each do |target|<br>    puts #{target.name}<br>  end<br>end<br><figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="header">##Dependencies（依赖项）</span></span><br><span class="line"></span><br><span class="line">Podfile描述用于各个用户targe中的依赖项</span><br><span class="line"></span><br><span class="line"><span class="bullet">* </span><span class="code">`pod`</span> 是声明指定依赖的方法</span><br><span class="line"><span class="bullet">* </span><span class="code">`podspec`</span> 提供了一个简单的API用于创建podspecs</span><br><span class="line"><span class="bullet">* </span><span class="code">`target`</span> 允许你在工程中限定依赖项只在你指定的targets中生效</span><br><span class="line"></span><br><span class="line"><span class="header">###pod</span></span><br><span class="line"></span><br><span class="line">指定工程的一个依赖</span><br><span class="line"></span><br><span class="line">一个依赖项通过pod名和可选的版本号来声明</span><br><span class="line"></span><br><span class="line">当你开始一个项目的时候你可能只需要一个最新版本的依赖，那么你就可以忽略版本号了，这样写：</span><br></pre></td></tr></table></figure></p>
+<p>pod ‘SSZipArchive’<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">以后你可能想指定一个Pod的固定版本的时候，可以写上具体的版本号来指定：</span><br></pre></td></tr></table></figure></p>
+<p>pod ‘Objection’, ‘0.9’<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">对版本号的操作除了指定与不指定，你还可以做其他操作：</span><br><span class="line">* `&gt;<span class="number">0.1</span>`  高于<span class="number">0.1</span>的任何版本</span><br><span class="line">* `&gt;=<span class="number">0.1</span>` 版本<span class="number">0.1</span>和任何更高版本</span><br><span class="line">* `&lt;<span class="number">0.1</span>`  低于<span class="number">0.1</span>的任何版本</span><br><span class="line">* `&lt;=<span class="number">0.1</span>` 版本<span class="number">0.1</span>和任何较低的版本</span><br><span class="line">* `〜&gt;<span class="number">0.1</span><span class="number">.2</span>` 版本 <span class="number">0.1</span><span class="number">.2</span>的版本到<span class="number">0.2</span> ，不包括<span class="number">0.2</span>。这个基于你指定的版本号的最后一个部分。这个例子等效于&gt;= <span class="number">0.1</span><span class="number">.2</span>并且 &lt;<span class="number">0.2</span><span class="number">.0</span>，并且始终是你指定范围内的最新版本</span><br><span class="line"></span><br><span class="line">版本控制列表可用做更细的版本管理</span><br><span class="line"></span><br><span class="line">想要了解更过关于版本控制策略的信息，可以参阅：</span><br><span class="line"></span><br><span class="line">* [Semantic Versioning](http:<span class="comment">//semver.org/)</span></span><br><span class="line"></span><br><span class="line">* [RubyGems Versioning Policies](http:<span class="comment">//docs.rubygems.org/read/chapter/7)</span></span><br><span class="line"></span><br><span class="line">最后，你可以使用标示 `:head`来指定版本. 这就意味着工程会使用指定spec下该pod的最新可以用版本，不过会强制下载’bleeding edge’高风险版本(HEAD).务必小心使用，因为spec可能导致不兼容</span><br></pre></td></tr></table></figure></p>
+<p>pod ‘Objection’, :head<br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">###<span class="label">#Build</span> configurations（编译配置）</span><br><span class="line"></span><br><span class="line">重要提示:</span><br><span class="line">&gt; 下面的语法是暂时的，将来很可能会更改，恕不另行通知。因为大家都在要求这个功能，所以我们发布了这个功能。你可以使用它，但你可能需要改变你的Podfile去使用未来版本的CocoaPods。不管怎么样，一个简单清晰的升级路径会提供给你</span><br><span class="line"></span><br><span class="line">默认情况下， 依赖项会被安装在所有target的<span class="keyword">build </span>configuration中。为了调试或者处于其他原因，依赖项只能在给定的<span class="keyword">build </span>configuration中被启用</span><br></pre></td></tr></table></figure></p>
+<p>pod ‘PonyDebugger’, :configurations =&gt; [‘Release’, ‘App Store’]<br><figure class="highlight armasm"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">当然你也可以弄白名单只指定一个<span class="keyword">build </span>configurations</span><br></pre></td></tr></table></figure></p>
+<p>当然你也可以只指定一个build configurations<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">###<span class="id">#Subspecs</span></span><br><span class="line"></span><br><span class="line">当你用一个名字装Pod的时候，它将安装所有定义在podspec里面的默认subspec</span><br><span class="line"></span><br><span class="line">你可以这样指定:</span><br></pre></td></tr></table></figure></p>
+<p>pod ‘QueryKit/Attribute’<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">也可以指定一个集合，像下面这样:</span><br></pre></td></tr></table></figure></p>
+<p>pod ‘QueryKit’, :subspecs =&gt; [‘Attribute’, ‘QuerySet’]<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">当然依赖也可以从其他源来获取</span><br><span class="line"></span><br><span class="line"><span class="comment">####Using the files from a local path (使用本地文件)</span></span><br><span class="line"></span><br><span class="line">如果你想用一个自己开发的本地的<span class="constant">Pod</span>，你可以用<span class="string">`path`</span>选项</span><br></pre></td></tr></table></figure></p>
+<p>pod ‘AFNetworking’, :path =&gt; ‘~/Documents/AFNetworking’<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">使用这个选项后，Cocoapods会将给定的文件夹认为是Pod的源，并且在工程中直接引用这些文件。这就意味着你编辑的部分可以保留在CocoaPods安装中</span><br><span class="line"></span><br><span class="line">被引用的文件夹可以来自你喜爱的SCM，甚至当前仓库的一个git子模块</span><br><span class="line"></span><br><span class="line">注意：Pod的`podspec`文件也应该被放在这个文件夹当中</span><br><span class="line"></span><br><span class="line">###<span class="id">#From</span> <span class="tag">a</span> podspec <span class="keyword">in</span> the root of <span class="tag">a</span> library repository (引用仓库根目录的podspec)</span><br><span class="line"></span><br><span class="line">有的时候你可能想要使用一个最新的开发版本，或者某一个二次开发版本。如果是这样，你可以在pod声明中特别标明</span><br><span class="line"></span><br><span class="line">使用仓库中的`master`分支:</span><br></pre></td></tr></table></figure></p>
+<p>pod ‘AFNetworking’, :git =&gt; ‘<a href="https://github.com/gowalla/AFNetworking.git" target="_blank" rel="external">https://github.com/gowalla/AFNetworking.git</a>‘<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">使用仓库的其他分支:</span><br></pre></td></tr></table></figure></p>
+<p>pod ‘AFNetworking’, :git =&gt; ‘<a href="https://github.com/gowalla/AFNetworking.git" target="_blank" rel="external">https://github.com/gowalla/AFNetworking.git</a>‘, :branch =&gt; ‘dev’<br><figure class="highlight vim"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">使用仓库的某个<span class="keyword">ta</span><span class="variable">g:</span></span><br></pre></td></tr></table></figure></p>
+<p>pod ‘AFNetworking’, :git =&gt; ‘<a href="https://github.com/gowalla/AFNetworking.git" target="_blank" rel="external">https://github.com/gowalla/AFNetworking.git</a>‘, :tag =&gt; ‘0.7.0’<br><figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">或者指定一个提交记录:</span><br></pre></td></tr></table></figure></p>
+<p>pod ‘AFNetworking’, :git =&gt; ‘<a href="https://github.com/gowalla/AFNetworking.git" target="_blank" rel="external">https://github.com/gowalla/AFNetworking.git</a>‘, :commit =&gt; ‘082f8319af’<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">需要特别注意的是，虽然这样将会满足任何在Pod中的依赖项通过其他Pods</span><br><span class="line">但是podspec必须存在于仓库的根目录中，如果根目录中没有存在这个podspec文件，你将不得不使用下面提到的几种方式之一</span><br><span class="line"></span><br><span class="line">###<span class="id">#From</span> <span class="tag">a</span> podspec outside <span class="tag">a</span> spec repository, <span class="keyword">for</span> <span class="tag">a</span> library without podspec（在一个不带podsepec的库里引用外部的spec）</span><br><span class="line"></span><br><span class="line">如果一个podspec能够从外部的仓库源的获取，设想一下，也通过HTTP来获取podspec:</span><br></pre></td></tr></table></figure></p>
+<p>pod ‘JSONKit’, :podspec =&gt; ‘<a href="https://example.com/JSONKit.podspec" target="_blank" rel="external">https://example.com/JSONKit.podspec</a>‘<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">##<span class="id">#podspec</span></span><br><span class="line"></span><br><span class="line">使用一个在给定podspec中声明的Pod的依赖项。如果如果没有参数被传递，那么在Podfile根部的第一个podspec会被使用。它将会被库所在的工程所使用</span><br><span class="line"> </span><br><span class="line">注意:这个不会包含哪些来自于podspec的资源而仅仅是来自于CocoaPods基础架构</span><br><span class="line"></span><br><span class="line">例子:</span><br></pre></td></tr></table></figure></p>
+<p>podspec<br><figure class="highlight autohotkey"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="escape">``</span><span class="escape">`</span><br><span class="line"></span><span class="label">podspec :</span>name =&gt; 'QuickDialog'</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="rule"><span class="attribute">podspec </span>:<span class="value">path =&gt; <span class="string">'/Documents/PrettyKit/PrettyKit.podspec'</span></span></span></span><br></pre></td></tr></table></figure>
+<p>###target</p>
+<p>在target块里面定义依赖项，如果对应的target不想添加依赖可以用<code>:exclusive =&gt; true</code>参数</p>
+<p>Podfile文件将会创建一个全局的target名叫<code>:default</code>，default将会生成一个<code>libPod.a</code>文件。这个target将会与用户工程中的第一个target绑定起来如果没有指定特殊的<code>link_with</code>属性的话</p>
+<p>例子：</p>
+<p>定义一个target:</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">target <span class="symbol">:ZipApp</span> <span class="keyword">do</span></span><br><span class="line">  pod <span class="string">'SSZipArchive'</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>定义一个独有的target:</p>
+<figure class="highlight elixir"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">target <span class="symbol">:ZipApp</span> <span class="keyword">do</span></span><br><span class="line">  pod <span class="string">'SSZipArchive'</span></span><br><span class="line">  target <span class="symbol">:test</span>, <span class="symbol">:exclusive</span> =&gt; <span class="keyword">true</span> <span class="keyword">do</span></span><br><span class="line">    pod <span class="string">'JSONKit'</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>##Target configuration (目标项配置)</p>
+<p>这些设置用来控制cocoapods生成project</p>
+<p>开头<code>platform</code>用来说明项目的工作平台，<code>xcodeproj</code>允许你指定需要链接的工程</p>
+<p>###platform</p>
+<p>指定了静态库应该被编译在哪个平台</p>
+<p>Cocoapods提供一个默认的部署目标如果你自己没有指定的话。目前的默认设置是<code>iOS4.3</code>、<code>OS X10.6</code>、<code>tvOS 9.0</code>、<code>watchOS 2.0</code></p>
+<p>如果部署目标要求iOS版本小于<code>4.3</code>，<code>armv6</code>架构将会被添加到<code>ARCHS</code>中</p>
+<p>例子：<br>指定平台</p>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">platform <span class="symbol">:ios</span>, </span><br><span class="line">platform <span class="symbol">:ios</span></span><br></pre></td></tr></table></figure>
+<p>###xcodeproj</p>
+<p>指定包含引用pod库的target的Xcode工程会被链接到</p>
+<p>如果没有显示的project被指定，那么会默认使用target的父target指定的project作为目标。如果如果没有任何一个target指定目标，那么就会使用和Podefile在同一目录下的project。同样也能够指定是否这些设置在release或者debug模式下生效。为了做到这一点，你必须指定一个名字和:release/:debuge关联起来</p>
+<p>例子:<br>指定用户工程</p>
+<figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># Look <span class="keyword">for</span> target <span class="keyword">to</span> link <span class="keyword">with</span> <span class="keyword">in</span> an Xcode project called</span><br><span class="line"># `MyProject.xcodeproj`.</span><br><span class="line">xcodeproj <span class="string">'MyProject'</span></span><br><span class="line"></span><br><span class="line">target :test <span class="keyword">do</span></span><br><span class="line">  # This Pods <span class="keyword">library</span> links <span class="keyword">with</span> a target <span class="keyword">in</span> another project.</span><br><span class="line">  xcodeproj <span class="string">'TestProject'</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>用自定义的编译配置</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xcodeproj <span class="string">'TestProject'</span>, <span class="string">'Mac App Store'</span> =&gt; :release, <span class="string">'Test'</span> =&gt; :debug</span><br></pre></td></tr></table></figure>
+<p>###link_with</p>
+<p>指定用户project里面中面的target链接到pod库</p>
+<p>如果没有显示的指定target，那么就会链接到工程中的第一个target。所以如果你只需要链接第一个target，那么你不需要使用link_with</p>
+<p>例子:</p>
+<p>链接用户工程里面的一个target</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">link_with</span> <span class="string">'MyApp'</span></span><br></pre></td></tr></table></figure>
+<p>链接多个target</p>
+<figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="title">link_with</span> <span class="string">'MyApp'</span>, <span class="string">'MyOtherApp'</span></span><br></pre></td></tr></table></figure>
+<p>###inhibit_all_warnings!</p>
+<p>屏蔽cocoapods库里面的所有警告</p>
+<p>这个特性也能在子target里面定义</p>
+<p>如果你想屏蔽某pod里面的警告也是可以的:</p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pod <span class="string">'SSZipArchive'</span>, :inhibit_warnings =&gt; <span class="keyword">true</span></span><br></pre></td></tr></table></figure>
+<p>###use_frameworks!</p>
+<p>可以用framework的pod替代静态库的</p>
+<p>这个特性可以通过定义子target来继承</p>
+<p>##Workspace（工作区）</p>
+<p>这部分内容列举了配置workspace的选项和设置全局配置</p>
+<p>###workspace</p>
+<p>指定应该包含所有projects的Xcode workspace.</p>
+<p>如果没有显示指定workspace并且在Podfile所在目录只有一个project，那么project的名称会被用作于workspace的名称</p>
+<p>例子：<br>指定一个workspace</p>
+<figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">workspace</span> <span class="string">'MyWorkspace'</span></span><br></pre></td></tr></table></figure>
+<p>###generate_bridge_support!</p>
+<p>指定后从所有已经安装的pod的头文件中会生成一个BridgeSupport元数据文档</p>
+<p>一些脚本语言例如<code>MacRuby</code>,<code>Nu</code>,<code>JSCocoa</code>能够利用这些作为桥接类型、函数等等</p>
+<p>###set_arc_compatibility_flag!</p>
+<p>指定后<code>-fobjc-arc</code> flag会被添加到<code>OTHER_LD_FLAGS</code>中</p>
+<p>这个是用来解决编译non-ARC项目出现的一个的bug（详见 #142）。本来这些事情都是有Xcode4.3.2中的libtool自动完成的，不过看来现在flag <code>-fobjc-arc</code> 已经不被支持了。所以必须显示的指定使用这个方法</p>
+<p>这个方法在CocoaPods 1.0中也许会被废弃</p>
+<p>##Sources</p>
+<p>Podfile检索了所有sources(repos)中的specs</p>
+<p>Sources是<code>全局的</code>，不存储在每个target定义里面</p>
+<p>###source</p>
+<p>指定specs的位置</p>
+<p>使用这个方法指定sources。sources的顺序是有关系的的。CocoaPods将使用pod第一次出现的source中的最高版本（后续的source中哪怕出现了更高的版本，也不予考虑）</p>
+<p>cocoapods 官方source是隐式的需要的，一旦你指定了其他source 你就需要也把官方的指定上</p>
+<p>例子:</p>
+<p>指定Artsy库然后带上官方的</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">CocoaPods Master Repository</span><br><span class="line"></span><br><span class="line"><span class="built_in">source</span> <span class="string">'https://github.com/artsy/Specs.git'</span></span><br><span class="line"><span class="built_in">source</span> <span class="string">'https://github.com/CocoaPods/Specs.git'</span></span><br></pre></td></tr></table></figure>
+<p>##Hooks（钩子）</p>
+<p>Podfile提供了钩子用来在安装时被调用</p>
+<p>钩子是<code>全局的</code>，不存储在每个target定义里面</p>
+<p>###plugin</p>
+<p>指定的插件应该使用在安装过程中</p>
+<p>使用此方法来指定一个插件，应该在安装过程中使用，同时，应传递给插件调用时的选项</p>
+<p>例子:</p>
+<p>指定用<code>slather</code> 和 <code>cocoapods-keys</code>插件</p>
+<figure class="highlight ocaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">plugin <span class="symbol">'cocoapods</span>-keys', :keyring =&gt; <span class="symbol">'Eidolon'</span></span><br><span class="line">plugin <span class="symbol">'slather'</span></span><br></pre></td></tr></table></figure>
+<p>###pre_install</p>
+<p>这个钩子允许你在Pods被下载后但是还未安装前对Pods做一些改变</p>
+<p>它接受<a href="http://rubydoc.info/gems/cocoapods/Pod/Installer/" target="_blank" rel="external">Pod::Installer</a>作为唯一参数</p>
+<p>例子:</p>
+<p>定义pre_install钩子</p>
+<figure class="highlight cal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pre_install <span class="keyword">do</span> |installer|</span><br><span class="line">  # <span class="keyword">Do</span> something fancy!</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+<p>###post_install</p>
+<p>这个钩子允许你在生成的Xcode project写入硬盘或者其他你想执行的操作前做最后的改动</p>
+<p>它接受<a href="http://rubydoc.info/gems/cocoapods/Pod/Installer/" target="_blank" rel="external">Pod::Installer</a>作为唯一参数</p>
+<p>例子:</p>
+<p>给所有target自定义编译配置</p>
+<figure class="highlight livecodeserver"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">post_install <span class="built_in">do</span> |installer|</span><br><span class="line">  installer.pods_project.targets.<span class="keyword">each</span> <span class="built_in">do</span> |target|</span><br><span class="line">    target.build_configurations.<span class="keyword">each</span> <span class="built_in">do</span> |config|</span><br><span class="line">      config.build_settings[<span class="string">'GCC_ENABLE_OBJC_GC'</span>] = <span class="string">'supported'</span></span><br><span class="line">    <span class="function"><span class="keyword">end</span></span><br><span class="line">  <span class="title">end</span></span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>]]></content>
+    <summary type="html">
+    <![CDATA[<p>本文翻译自官方的<a href="https://guides.cocoapods.org/syntax/podfile.html" target="_blank" rel="external">Podfile Syntax Reference</a>,也参考了之前一位博主]]>
+    </summary>
+    
+      <category term="cocoapods" scheme="http://tasselx.github.io/tags/cocoapods/"/>
+    
+      <category term="iOS" scheme="http://tasselx.github.io/categories/iOS/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[iOS面试题总结（知乎分享面试题）]]></title>
