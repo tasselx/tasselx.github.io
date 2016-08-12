@@ -469,39 +469,6 @@
   </entry>
   
   <entry>
-    <title><![CDATA[解决npm install time out问题]]></title>
-    <link href="http://tasselx.github.io/2015/07/16/npm-install-freeze/"/>
-    <id>http://tasselx.github.io/2015/07/16/npm-install-freeze/</id>
-    <published>2015-07-16T09:16:58.000Z</published>
-    <updated>2015-08-16T18:03:44.000Z</updated>
-    <content type="html"><![CDATA[<p><img src="http://ww3.sinaimg.cn/large/7c00f1e1gw1ev4zpgmrmkj20ia0c7wf1.jpg" class="full-image"></p>
-<blockquote class="blockquote-center">想要追逐更高的天空</blockquote>
-
-<a id="more"></a>
-<blockquote>
-<p>常在天朝走，哪有不被墙呢，这不npm install安装超时了，在网络上搜索了一番找到了一些解决办法，分享如下</p>
-</blockquote>
-<ul>
-<li><p>解决办法1: 开VPN，对就是VPN，最直接也是最有效的办法</p>
-</li>
-<li><p>解决办法2: 使用淘宝提供的npm镜像加速服务。</p>
-<p>安装cnpm <code>npm install cnpm -g</code></p>
-<p>然后安装npm包就可以使用cnpm命令了，如<code>cnpm install express -g</code></p>
-<p>然后就可以顺畅的使用npm包了</p>
-</li>
-</ul>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p><img src="http://ww3.sinaimg.cn/large/7c00f1e1gw1ev4zpgmrmkj20ia0c7wf1.jpg"  class="full-image" /></p>
-<blockquote class="blockquote-center">想要追逐更高的天空</blockquote>]]>
-    
-    </summary>
-    
-      <category term="Node.js" scheme="http://tasselx.github.io/tags/Node-js/"/>
-    
-  </entry>
-  
-  <entry>
     <title><![CDATA[面试题]]></title>
     <link href="http://tasselx.github.io/2015/07/16/Interview/"/>
     <id>http://tasselx.github.io/2015/07/16/Interview/</id>
