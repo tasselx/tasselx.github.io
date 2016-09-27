@@ -28,7 +28,7 @@
 
 
 
-  <meta name="keywords" content="Hexo,next" />
+  <meta name="keywords" content="Xcode8," />
 
 
 
@@ -39,15 +39,32 @@
   <link rel="shorticon icon" type="image/x-icon" href="/favicon.ico?v=0.4.4" />
 
 
-<meta name="description" content="以大多数人的努力程度之低,根本轮不到拼天赋">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Tassel's Blog">
-<meta property="og:url" content="http://tasselx.github.io/index.html">
+<meta name="description" content="Xcode8 正式版已经发布，去除了对iOS7支持，使用iOS7真机调试的时候会出现下面所示的情况。
+
+
+
+Xcode8默认支持iOS 8.0-iOS10+，但是因为一些老项目还是需要支持iOS7调试的，那么怎么办呢？当然是有解决办法的下面说下如何解决注:如遇密码输入框，请输入电脑管理员密码">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Xcode8兼容iOS7真机调试">
+<meta property="og:url" content="http://tasselx.github.io/2016/09/27/Xcode8withiOS7-debug/index.html">
 <meta property="og:site_name" content="Tassel's Blog">
-<meta property="og:description" content="以大多数人的努力程度之低,根本轮不到拼天赋">
+<meta property="og:description" content="Xcode8 正式版已经发布，去除了对iOS7支持，使用iOS7真机调试的时候会出现下面所示的情况。
+
+
+
+Xcode8默认支持iOS 8.0-iOS10+，但是因为一些老项目还是需要支持iOS7调试的，那么怎么办呢？当然是有解决办法的下面说下如何解决注:如遇密码输入框，请输入电脑管理员密码">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/42094-12625e736e2e9cff.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/42094-0e7b7d974d544cd3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/42094-d11159bcc5946c3a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/42094-ff83aee5a8f3349d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2016-09-27T15:07:09.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Tassel's Blog">
-<meta name="twitter:description" content="以大多数人的努力程度之低,根本轮不到拼天赋">
+<meta name="twitter:title" content="Xcode8兼容iOS7真机调试">
+<meta name="twitter:description" content="Xcode8 正式版已经发布，去除了对iOS7支持，使用iOS7真机调试的时候会出现下面所示的情况。
+
+
+
+Xcode8默认支持iOS 8.0-iOS10+，但是因为一些老项目还是需要支持iOS7调试的，那么怎么办呢？当然是有解决办法的下面说下如何解决注:如遇密码输入框，请输入电脑管理员密码">
 
 
 <script type="text/javascript" id="hexo.configuration">
@@ -57,7 +74,7 @@
   };
 </script>
 
-    <title> Tassel's Blog </title>
+    <title> Xcode8兼容iOS7真机调试 // Tassel's Blog </title>
 </head>
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 <!--[if lte IE 8]>
@@ -83,9 +100,7 @@
 
 
 
-<div class="container one-column 
-   page-home 
-">
+<div class="container one-column page-post-detail">
     <div class="headband"></div>
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
         <div class="header-inner"><h1 class="site-meta">
@@ -185,9 +200,9 @@
         <div class="main-inner">
             <div id="content" class="content">
                 
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <header class="post-header">
@@ -198,9 +213,7 @@
           
           
             
-              <a class="post-title-link" href="/2016/09/27/Xcode8withiOS7-debug/" itemprop="url">
-                Xcode8兼容iOS7真机调试
-              </a>
+              Xcode8兼容iOS7真机调试
             
           
         </h1>
@@ -246,373 +259,101 @@
       
 
       
-        
-          <blockquote>
+        <span itemprop="articleBody"><blockquote>
 <p>Xcode8 正式版已经发布，去除了对iOS7支持，使用iOS7真机调试的时候会出现下面所示的情况。</p>
 </blockquote>
 <p><img src="http://upload-images.jianshu.io/upload_images/42094-12625e736e2e9cff.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Xcode8默认不支持iOS7调试"></p>
 <blockquote>
-<p>Xcode8默认支持iOS 8.0-iOS10+，但是因为一些老项目还是需要支持iOS7调试的，那么怎么办呢？当然是有解决办法的下面说下如何解决<br><code>注:如遇密码输入框，请输入电脑管理员密码</code><br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/09/27/Xcode8withiOS7-debug/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2016/08/06/ios-pfx-sha1withrsa-sign-Verify/" itemprop="url">
-                iOS pfx SHA1WithRSA 加签,验签
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2016-08-06T10:37:02+08:00" content="2016-08-06">
-            2016-08-06
-          </time>
-        </span>
-
-        
-          <span class="post-category" >
-            &nbsp; | &nbsp; 分类于
-            
-              <span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a></span>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-              &nbsp; | &nbsp;
-              <a href="/2016/08/06/ios-pfx-sha1withrsa-sign-Verify/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2016/08/06/ios-pfx-sha1withrsa-sign-Verify/" itemprop="commentsCount"></span>
-              </a>
-            </span>
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <blockquote>
-<p>最近搞的一个加签验签，证书文件给的pfx，以前没搞过pfx，大致查了下pfx加密标准是PKCS#12里面包含公钥，以及私钥。这里我们要用到私钥加签，公钥验签,由于iOS这方面资料可能不太多，记录一下，贴下代码</p>
+<p>Xcode8默认支持iOS 8.0-iOS10+，但是因为一些老项目还是需要支持iOS7调试的，那么怎么办呢？当然是有解决办法的下面说下如何解决<br><code>注:如遇密码输入框，请输入电脑管理员密码</code><br><a id="more"></a></p>
 </blockquote>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2016/08/06/ios-pfx-sha1withrsa-sign-Verify/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
+<ol>
+<li><p>加入DeviceSupport支持文件，可以从Xcode7里面提取到，路径是<br><code>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport</code>放在Xcode8同样目录下面，如果找不到的话，我这里提供了网盘下载地址<a href="https://yunpan.cn/ck9b6EKcXCbML" target="_blank" rel="external">https://yunpan.cn/ck9b6EKcXCbML</a> （提取码：72da）<br><img src="http://upload-images.jianshu.io/upload_images/42094-0e7b7d974d544cd3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="DeviceSupport"></p>
+</li>
+<li><p>修改SDKSettings设置，加入支持，路径在<br><code>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/SDKSettings.plist</code><br>使用文本编辑器打开<br><img src="http://upload-images.jianshu.io/upload_images/42094-d11159bcc5946c3a.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="SDKSettings.plist"><br>加入支持后<img src="http://upload-images.jianshu.io/upload_images/42094-ff83aee5a8f3349d.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+</li>
+</ol>
+<blockquote>
+<p>两步完成以后，重启Xcode，就可以调试iOS7真机了</p>
+</blockquote>
+</span>
       
     </div>
 
     <footer class="post-footer">
       
-
+        <div class="post-tags">
+          
+            <a href="/tags/Xcode8/" rel="tag">#Xcode8</a>
+          
+        </div>
       
 
       
+        <div class="post-nav">
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/08/06/ios-pfx-sha1withrsa-sign-Verify/" rel="next">iOS pfx SHA1WithRSA 加签,验签</a>
+            
+          </div>
+        </div>
       
-        <div class="post-eof"></div>
+
+      
       
     </footer>
   </article>
 
 
-    
+
+    <div class="post-spread">
       
+        <!-- JiaThis Button BEGIN -->
+<div class="jiathis_style">
+  <a class="jiathis_button_tsina"></a>
+  <a class="jiathis_button_tqq"></a>
+  <a class="jiathis_button_weixin"></a>
+  <a class="jiathis_button_cqq"></a>
+  <a class="jiathis_button_douban"></a>
+  <a class="jiathis_button_renren"></a>
+  <a class="jiathis_button_qzone"></a>
+  <a class="jiathis_button_kaixin001"></a>
+  <a class="jiathis_button_copy"></a>
+  <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jiathis_separator jtico jtico_jiathis" target="_blank"></a>
+  <a class="jiathis_counter_style"></a>
+</div>
+<script type="text/javascript" >
+  var jiathis_config={
+    hideMore:false
+  }
+</script>
+<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js" charset="utf-8"></script>
+<!-- JiaThis Button END -->
 
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2015/10/30/Podfile-Syntax-Reference/" itemprop="url">
-                Podfile语法参考（译）
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2015-10-30T19:56:34+08:00" content="2015-10-30">
-            2015-10-30
-          </time>
-        </span>
-
-        
-          <span class="post-category" >
-            &nbsp; | &nbsp; 分类于
-            
-              <span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a></span>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-              &nbsp; | &nbsp;
-              <a href="/2015/10/30/Podfile-Syntax-Reference/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2015/10/30/Podfile-Syntax-Reference/" itemprop="commentsCount"></span>
-              </a>
-            </span>
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p>本文翻译自官方的<a href="https://guides.cocoapods.org/syntax/podfile.html">Podfile Syntax Reference</a>,也参考了之前一位博主的<a href="http://www.tomatopeter.com/blog/2014/11/22/podfile-syntax-reference-chinese/">翻译</a>，若翻译中有什么异议，欢迎留言指正。<br>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/10/30/Podfile-Syntax-Reference/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
       
     </div>
+  </div>
 
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2015/07/29/ios-interview/" itemprop="url">
-                iOS面试题总结（知乎分享面试题）
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2015-07-29T01:32:21+08:00" content="2015-07-29">
-            2015-07-29
-          </time>
-        </span>
-
-        
-          <span class="post-category" >
-            &nbsp; | &nbsp; 分类于
-            
-              <span itemprop="about" itemscope itemtype="https://schema.org/Thing"><a href="/categories/iOS/" itemprop="url" rel="index"><span itemprop="name">iOS</span></a></span>
-
-              
-              
-
-            
-          </span>
-        
-
-        
-          
-            <span class="post-comments-count">
-              &nbsp; | &nbsp;
-              <a href="/2015/07/29/ios-interview/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/29/ios-interview/" itemprop="commentsCount"></span>
-              </a>
-            </span>
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p><img src="http://ww4.sinaimg.cn/large/7c00f1e1gw1ev4yg5cdyqj20ia0c4q3w.jpg" class="full-image" /></p>
-<blockquote class="blockquote-center">还有很长的路要走<br>还有很多的事要做</blockquote>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/07/29/ios-interview/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-      
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      
-      
-        <h1 class="post-title" itemprop="name headline">
-          
-          
-            
-              <a class="post-title-link" href="/2015/07/16/Interview/" itemprop="url">
-                面试题
-              </a>
-            
-          
-        </h1>
-      
-
-      <div class="post-meta">
-        <span class="post-time">
-          发表于
-          <time itemprop="dateCreated" datetime="2015-07-16T13:31:57+08:00" content="2015-07-16">
-            2015-07-16
-          </time>
-        </span>
-
-        
-
-        
-          
-            <span class="post-comments-count">
-              &nbsp; | &nbsp;
-              <a href="/2015/07/16/Interview/#comments" itemprop="discussionUrl">
-                <span class="post-comments-count ds-thread-count" data-thread-key="2015/07/16/Interview/" itemprop="commentsCount"></span>
-              </a>
-            </span>
-          
-        
-      </div>
-    </header>
-
-    <div class="post-body">
-
-      
-      
-
-      
-        
-          <p><img src="http://ww3.sinaimg.cn/large/7c00f1e1gw1ev506yzdjyj20ia0c7405.jpg" class = "fullimage" /></p>
-<blockquote class="blockquote-center">一叶障目<br>不见泰山</blockquote>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2015/07/16/Interview/" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
-  </section>
-
-  
 
             </div>
 
             
+                <!-- 多说热评文章-->
+                <p>热评文章</p>
+                <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+            
 
+            
+              <div class="comments" id="comments">
+                
+                  <div class="ds-thread" data-thread-key="2016/09/27/Xcode8withiOS7-debug/"
+                       data-title="Xcode8兼容iOS7真机调试" data-url="http://tasselx.github.io/2016/09/27/Xcode8withiOS7-debug/">
+                  </div>
+                
+              </div>
             
         </div>
 
@@ -629,6 +370,15 @@
   <aside id="sidebar" class="sidebar">
     <div class="sidebar-inner">
 
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
       
 
       <section class="site-overview">
@@ -711,6 +461,17 @@
       </section>
 
       
+        <section class="post-toc-wrap sidebar-panel-active">
+          <div class="post-toc-indicator-top post-toc-indicator"></div>
+          <div class="post-toc">
+            
+            
+              <p class="post-toc-empty">此文章未包含目录</p>
+            
+          </div>
+          <div class="post-toc-indicator-bottom post-toc-indicator"></div>
+        </section>
+      
 
     </div>
   </aside>
@@ -754,7 +515,7 @@
   
   
   
-  
+    
 
   
     
@@ -773,8 +534,8 @@
   </script>
     
 
+    
   
-
   
   <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js"></script>
   <script type="text/javascript" src="/js/fancy-box.js?v=0.4.4"></script>
@@ -791,6 +552,165 @@
 
 
   <script type="text/javascript" src="/js/search-toggle.js"></script>
+
+
+  
+<script type="text/javascript" src="/js/bootstrap.scrollspy.js?v=0.4.4" id="bootstrap.scrollspy.custom"></script>
+
+
+<script type="text/javascript" id="sidebar.toc.highlight">
+  $(document).ready(function () {
+    var tocSelector = '.post-toc';
+    var $tocSelector = $(tocSelector);
+    var activeCurrentSelector = '.active-current';
+
+    $tocSelector
+      .on('activate.bs.scrollspy', function () {
+        var $currentActiveElement = $(tocSelector + ' .active').last();
+
+        removeCurrentActiveClass();
+        $currentActiveElement.addClass('active-current');
+
+        $tocSelector[0].scrollTop = $currentActiveElement.position().top;
+      })
+      .on('clear.bs.scrollspy', function () {
+        removeCurrentActiveClass();
+      });
+
+    function removeCurrentActiveClass () {
+      $(tocSelector + ' ' + activeCurrentSelector)
+        .removeClass(activeCurrentSelector.substring(1));
+    }
+
+    function processTOC () {
+      getTOCMaxHeight();
+      toggleTOCOverflowIndicators();
+    }
+
+    function getTOCMaxHeight () {
+      var height = $('.sidebar').height() -
+                   $tocSelector.position().top -
+                   $('.post-toc-indicator-bottom').height();
+
+      $tocSelector.css('height', height);
+
+      return height;
+    }
+
+    function toggleTOCOverflowIndicators () {
+      tocOverflowIndicator(
+        '.post-toc-indicator-top',
+        $tocSelector.scrollTop() > 0 ? 'show' : 'hide'
+      );
+
+      tocOverflowIndicator(
+        '.post-toc-indicator-bottom',
+        $tocSelector.scrollTop() >= $tocSelector.find('ol').height() - $tocSelector.height() ? 'hide' : 'show'
+      )
+    }
+
+    $(document).on('sidebar.motion.complete', function () {
+      processTOC();
+    });
+
+    $('body').scrollspy({ target: tocSelector });
+    $(window).on('resize', function () {
+      if ( $('.sidebar').hasClass('sidebar-active') ) {
+        processTOC();
+      }
+    });
+
+    onScroll($tocSelector);
+
+    function onScroll (element) {
+      element.on('mousewheel DOMMouseScroll', function (event) {
+          var oe = event.originalEvent;
+          var delta = oe.wheelDelta || -oe.detail;
+
+          this.scrollTop += ( delta < 0 ? 1 : -1 ) * 30;
+          event.preventDefault();
+
+          toggleTOCOverflowIndicators();
+      });
+    }
+
+    function tocOverflowIndicator (indicator, action) {
+      var $indicator = $(indicator);
+      var opacity = action === 'show' ? 0.4 : 0;
+      $indicator.velocity ?
+        $indicator.velocity('stop').velocity({
+          opacity: opacity
+        }, { duration: 100 }) :
+        $indicator.stop().animate({
+          opacity: opacity
+        }, 100);
+    }
+
+  });
+</script>
+
+<script type="text/javascript" id="sidebar.nav">
+  $(document).ready(function () {
+    var html = $('html');
+    var TAB_ANIMATE_DURATION = 200;
+    var hasVelocity = $.isFunction(html.velocity);
+
+    $('.sidebar-nav li').on('click', function () {
+      var item = $(this);
+      var activeTabClassName = 'sidebar-nav-active';
+      var activePanelClassName = 'sidebar-panel-active';
+      if (item.hasClass(activeTabClassName)) {
+        return;
+      }
+
+      var currentTarget = $('.' + activePanelClassName);
+      var target = $('.' + item.data('target'));
+
+      hasVelocity ?
+        currentTarget.velocity('transition.slideUpOut', TAB_ANIMATE_DURATION, function () {
+          target
+            .velocity('stop')
+            .velocity('transition.slideDownIn', TAB_ANIMATE_DURATION)
+            .addClass(activePanelClassName);
+        }) :
+        currentTarget.animate({ opacity: 0 }, TAB_ANIMATE_DURATION, function () {
+          currentTarget.hide();
+          target
+            .stop()
+            .css({'opacity': 0, 'display': 'block'})
+            .animate({ opacity: 1 }, TAB_ANIMATE_DURATION, function () {
+              currentTarget.removeClass(activePanelClassName);
+              target.addClass(activePanelClassName);
+            });
+        });
+
+      item.siblings().removeClass(activeTabClassName);
+      item.addClass(activeTabClassName);
+    });
+
+    $('.post-toc a').on('click', function (e) {
+      e.preventDefault();
+      var targetSelector = escapeSelector(this.getAttribute('href'));
+      var offset = $(targetSelector).offset().top;
+      hasVelocity ?
+        html.velocity('stop').velocity('scroll', {
+          offset: offset  + 'px',
+          mobileHA: false
+        }) :
+        $('html, body').stop().animate({
+          scrollTop: offset
+        }, 500);
+    });
+
+    // Expand sidebar on post detail page by default, when post has a toc.
+    var $tocContent = $('.post-toc-content');
+    if (isDesktop() && CONFIG.sidebar === 'post') {
+      if ($tocContent.length > 0 && $tocContent.html().trim().length > 0) {
+        displaySidebar();
+      }
+    }
+  });
+</script>
 
 
 
@@ -825,27 +745,6 @@
 <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 
 
-
-  
-
-  
-    
-  
-
-  <script type="text/javascript">
-    var duoshuoQuery = {short_name:"tassel"};
-    (function() {
-      var ds = document.createElement('script');
-      ds.type = 'text/javascript';ds.async = true;
-      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-      ds.charset = 'UTF-8';
-      (document.getElementsByTagName('head')[0]
-      || document.getElementsByTagName('body')[0]).appendChild(ds);
-    })();
-  </script>
-    
-
-  
 
 
 
