@@ -4,7 +4,7 @@
   
   <link href="/atom.xml" rel="self"/>
   <link href="http://tasselx.github.io/"/>
-  <updated>2016-09-27T15:07:09.000Z</updated>
+  <updated>2016-09-27T15:09:03.000Z</updated>
   <id>http://tasselx.github.io/</id>
   
   <author>
@@ -19,14 +19,11 @@
     <link href="http://tasselx.github.io/2016/09/27/Xcode8withiOS7-debug/"/>
     <id>http://tasselx.github.io/2016/09/27/Xcode8withiOS7-debug/</id>
     <published>2016-09-27T15:04:58.000Z</published>
-    <updated>2016-09-27T15:07:09.000Z</updated>
-    <content type="html"><![CDATA[<blockquote>
-<p>Xcode8 正式版已经发布，去除了对iOS7支持，使用iOS7真机调试的时候会出现下面所示的情况。</p>
-</blockquote>
+    <updated>2016-09-27T15:09:03.000Z</updated>
+    <content type="html"><![CDATA[<p>Xcode8 正式版已经发布，去除了对iOS7支持，使用iOS7真机调试的时候会出现下面所示的情况。</p>
 <p><img src="http://upload-images.jianshu.io/upload_images/42094-12625e736e2e9cff.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Xcode8默认不支持iOS7调试"></p>
-<blockquote>
-<p>Xcode8默认支持iOS 8.0-iOS10+，但是因为一些老项目还是需要支持iOS7调试的，那么怎么办呢？当然是有解决办法的下面说下如何解决<br><code>注:如遇密码输入框，请输入电脑管理员密码</code><br><a id="more"></a></p>
-</blockquote>
+<p>Xcode8默认支持iOS 8.0-iOS10+，但是因为一些老项目还是需要支持iOS7调试的，那么怎么办呢？当然是有解决办法的下面说下如何解决<br><code>注:如遇密码输入框，请输入电脑管理员密码</code></p>
+<a id="more"></a>
 <ol>
 <li><p>加入DeviceSupport支持文件，可以从Xcode7里面提取到，路径是<br><code>/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/DeviceSupport</code>放在Xcode8同样目录下面，如果找不到的话，我这里提供了网盘下载地址<a href="https://yunpan.cn/ck9b6EKcXCbML" target="_blank" rel="external">https://yunpan.cn/ck9b6EKcXCbML</a> （提取码：72da）<br><img src="http://upload-images.jianshu.io/upload_images/42094-0e7b7d974d544cd3.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="DeviceSupport"></p>
 </li>
@@ -38,12 +35,9 @@
 </blockquote>
 ]]></content>
     <summary type="html">
-    <![CDATA[<blockquote>
-<p>Xcode8 正式版已经发布，去除了对iOS7支持，使用iOS7真机调试的时候会出现下面所示的情况。</p>
-</blockquote>
+    <![CDATA[<p>Xcode8 正式版已经发布，去除了对iOS7支持，使用iOS7真机调试的时候会出现下面所示的情况。</p>
 <p><img src="http://upload-images.jianshu.io/upload_images/42094-12625e736e2e9cff.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Xcode8默认不支持iOS7调试"></p>
-<blockquote>
-<p>Xcode8默认支持iOS 8.0-iOS10+，但是因为一些老项目还是需要支持iOS7调试的，那么怎么办呢？当然是有解决办法的下面说下如何解决<br><code>注:如遇密码输入框，请输入电脑管理员密码</code><br>]]>
+<p>Xcode8默认支持iOS 8.0-iOS10+，但是因为一些老项目还是需要支持iOS7调试的，那么怎么办呢？当然是有解决办法的下面说下如何解决<br><code>注:如遇密码输入框，请输入电脑管理员密码</code></p>]]>
     
     </summary>
     
